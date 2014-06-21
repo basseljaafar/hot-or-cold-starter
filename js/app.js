@@ -12,80 +12,11 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 	
-	/*
-	var coun = 0;
-	$("#count").text(coun);
-	var one = "Make your Guess";
-	var two = " ";
-	var play = function(guess) {
-		coun++;
-		
-		if(isNaN(guess) || guess > 100 || guess < 1 || !Number.isInteger(guess)){
-			$("#feedback").text("Please insert an integer between 1 and 100 (inclusive)");
-		} else {
-			var target = Math.random() + 1;
-			target *= 10;
-			//alert(target);
-			target = Math.floor(target);
-			//alert(target);
-			//var i = 0;
-			
-			if(guess != target){
-			
-				var x = abs(guess - target);
-				var ant = {};
-				ant[i] = x;
-				i++;
-				if( x < 10 ){
-					$("#feedback").text("Burning Hot");
-					one = "Burning Hot";
-				} else if (10 <= x < 20){
-					$("#feedback").text("Hot");
-					one = "Hot";
-				} else if (20 <= x < 30) {
-					$("#feedback").text("Warm");
-					one = "Warm";
-				} else if (30 <= x < 50) {
-					$("#feedback").text("Cold");
-					one = "Cold";
-				} else if (50 <= x < 70) {
-					$("#feedback").text("Freezing");
-					one = "Freezing";
-				} else if (70 <= x ) {
-					$("#feedback").text("Antartica");
-					one = "Antartica";
-				};
-				
-				if(ant[i-1] > x ){
-					$("#feedback").text().append(" and Closer");
-					two = " and Closer";
-				} else if (ant[i-1] == x){
-					$("#feedback").text().append(" just as close");
-					two = " just as close";
-				} else {
-					$("#feedback").text().append(" and further");
-					two = " and Further away";
-				};
-			}	
-			else {
-				$("#feedback").text("Got it");
-				 };	
-				
-			
-		
-		}
-		
 	
-	};
-	
-	$("#guessButton").click(function(){
-		play((+$("#userGuess").val()));
-		
-	});*/
-	
-	var count
-		, random;
-		
+	var count;
+	var random;
+	var a;
+	var arr = [];
 	
 	
 	
@@ -108,39 +39,22 @@ $(document).ready(function(){
 		e.preventDefault();
 		
 		var x = +$("input#userGuess").val();
-		var arr = [];
-		//alert(x);
-		//alert(typeof(x));
-		var a = "Burning";
-		var b = "Hot";
-		var c = "Warm";
-		var d = "Cold";
-		var e = "Freezing";
-		var f = " Antarctica";
-		var g = " and Hotter";
-		var h = " and Colder";
-		
+
 		if(x != NaN && x>=1 && x<=100){
-			//alert((x));
-			//arr[count] = x;
-			//alert(arr.length);
+
 			count++;
 			$("span#count").text(count);
 			var guess = $("input#userGuess").val();
 			var y = Math.abs(x - random);
 			arr[count - 1] = y;
-			//alert(guess);
 	
 			if (guess == random){
-				//alert("good");
 				$("h2#feedback").text("Got it!");
 				$("input.button").val("Play Again!")
 				$("input.button").on("click", function(){
 					newGame();
 				});
 			} else {
-				//alert("gret");
-				//$("h2#feedback").text("Guess Again");
 				var li = $("<li></li>");
 				$(li).text(guess);
 				$("input.text").val("");
@@ -151,20 +65,32 @@ $(document).ready(function(){
 				};
 				
 				if(y < 5){
-					$("h2#feedback").text(a);
+					a = "Burning";
 				} else if(y < 15){
-					$("h2#feedback").text(b);
+					a = "Hot";
 				} else if (y < 25){
-					$("h2#feedback").text(c);
+					a = "Warm";
 				} else if (y < 35){
-					$("h2#feedback").text(d);
+					a = "Cold";
 				} else if (y < 45){
-					$("h2#feedback").text(e);
+					a = "Freezing";
 				} else {
-					$("h2#feedback").text(f);
-					$("h2#feedback").text().append(" kndwknd");
+					a = " Antarctica";
 				};
 				
+			if(count != 1 && arr[count - 1] < arr[count - 2]){
+				a = a + " and Hotter";
+				$("h2#feedback").text(a);
+			} else if (count != 1 && arr[count - 1] == arr[count- 2]){
+				a = a + " and just as Hot";
+				$("h2#feedback").text(a);
+			} else if (count != 1 && arr[count - 1] > arr[count - 2]){
+				a = a + " and Colder";
+				$("h2#feedback").text(a);
+			};
+			
+			$("h2#feedback").text(a);
+			
 			};
 			
 			
@@ -180,7 +106,7 @@ $(document).ready(function(){
 	});
 	
 	newGame();
-	//$("span#count").text(count);
+	
 	
 });
 
