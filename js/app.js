@@ -1,6 +1,8 @@
 
 $(document).ready(function(){
 	
+	
+	
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -12,24 +14,26 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
 	
-	
 	var count;
 	var random;
 	var a;
-	var arr = [];
-	
+	var arr;
 	
 	
 	var newGame = function(guess){
 	
+		
+		arr = [];	
 		count = 0;
 		$("span#count").text(count);
-		random = Math.random() + 1;
-		random *= 10;
+		random = Math.random();
+		random *= 100;
+		random = random++;
 		random = Math.floor(random);
-		$("input.text").val("");
-		$("ul").find("li").remove();
+		$("input#userGuess").val("");
+		$("ul#guessList").find("li").remove();
 		$("h2#feedback").text("Make a guess");
+		$("input.button").val("Guess");
 		alert(random);
 	};
 	
@@ -38,9 +42,14 @@ $(document).ready(function(){
 	$("input#guessButton").on("click", function(e){
 		e.preventDefault();
 		
+		if($("input.button").val() == "Play Again!"){
+			newGame();
+		} else {
+		
 		var x = +$("input#userGuess").val();
+		var z = x.toFixed(0);
 
-		if(x != NaN && x>=1 && x<=100){
+		if(x != NaN && x>=1 && x<=100 && x == z){
 
 			count++;
 			$("span#count").text(count);
@@ -50,10 +59,12 @@ $(document).ready(function(){
 	
 			if (guess == random){
 				$("h2#feedback").text("Got it!");
-				$("input.button").val("Play Again!")
-				$("input.button").on("click", function(){
-					newGame();
-				});
+				$("input.button").val("Play Again!");
+				//$("input.button").on("click", function(e){
+					//e.preventDefault();
+					//newGame();
+					//e.preventDefault();
+				//});
 			} else {
 				var li = $("<li></li>");
 				$(li).text(guess);
@@ -79,7 +90,7 @@ $(document).ready(function(){
 				};
 				
 			if(count != 1 && arr[count - 1] < arr[count - 2]){
-				a = a + " and Hotter";
+				a = a + " and Warmer";
 				$("h2#feedback").text(a);
 			} else if (count != 1 && arr[count - 1] == arr[count- 2]){
 				a = a + " and just as Hot";
@@ -100,13 +111,15 @@ $(document).ready(function(){
 			$("input.text").val("");
 			
 		};
-		
-		
-	
+		}
 	});
 	
-	newGame();
 	
+	newGame();	
+	
+	$(".new").on("click",function(){
+		newGame();
+	});
 	
 });
 
